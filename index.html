@@ -3,863 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIDPI Awareness Program</title>
+    <title>🛡️ PIDPI Awareness Program</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            max-width: 800px;
-            width: 90%;
-            text-align: center;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        h1 {
             color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation Header */
+        .nav-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
             margin-bottom: 30px;
-            font-size: 2.5em;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
-        
-        .form-group {
+
+        .nav-header h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .nav-header p {
+            text-align: center;
+            color: #7f8c8d;
             margin-bottom: 20px;
-            text-align: left;
         }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        
-        input[type="text"], input[type="email"], textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
+
+        /* Progress Bar */
+        .progress-container {
+            background: #ecf0f1;
             border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            height: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
         }
-        
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
+
+        .progress-bar {
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
         }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 30px;
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
             border: none;
             border-radius: 25px;
-            font-size: 18px;
             cursor: pointer;
-            transition: transform 0.3s;
-            margin: 10px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .slide {
-            text-align: left;
-            line-height: 1.6;
-        }
-        
-        .slide h2 {
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #f0f0f0;
-            border-radius: 5px;
-            margin-bottom: 30px;
-        }
-        
-        .progress {
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 5px;
-            transition: width 0.3s;
-        }
-        
-        .slide-counter {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #666;
-        }
-        
-        .quiz-question {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .quiz-options {
-            display: grid;
-            gap: 10px;
-        }
-        
-        .quiz-option {
-            background: white;
-            border: 2px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .quiz-option:hover {
-            border-color: #667eea;
-        }
-        
-        .quiz-option.selected {
-            background: #667eea;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #34495e;
             color: white;
-            border-color: #667eea;
         }
-        
-        .certificate {
-            border: 12px solid #d32f2f;
-            background: linear-gradient(45deg, #fefefe, #f8f8f8);
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            margin: 20px 0;
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .certificate::before {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
-            border: 4px solid #8bc34a;
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            color: white;
         }
-        
-        .certificate::after {
-            content: '🇮🇳';
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 30px;
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
-        
-        .certificate h2 {
-            font-size: 2.5em;
-            color: #333;
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
             margin-bottom: 20px;
-            font-family: 'Times New Roman', serif;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            min-height: 500px;
         }
-        
-        .certificate .name {
-            font-size: 2em;
-            color: #667eea;
-            font-weight: bold;
-            margin: 30px 0;
+
+        .content-section.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
         }
-        
-        .certificate .score {
-            font-size: 1.3em;
-            margin: 20px 0;
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .content-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
             color: #555;
         }
-        
-        .navigation {
+
+        /* Quiz Section */
+        .quiz-question {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .quiz-options {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .quiz-options li {
+            margin-bottom: 10px;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Certificate Section */
+        .certificate {
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            border: 3px solid #3498db;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .certificate h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .certificate h3 {
+            color: #3498db;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .certificate-content {
+            margin: 30px 0;
+            line-height: 1.8;
+        }
+
+        .name-field {
+            border: none;
+            border-bottom: 2px solid #3498db;
+            background: transparent;
+            padding: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 0 10px;
+            min-width: 200px;
+        }
+
+        .certificate-footer {
+            margin-top: 30px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        /* Navigation Controls */
+        .nav-controls {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 30px;
+        }
+
+        .control-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .control-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-btn {
+                width: 200px;
+            }
+
+            .nav-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .control-btn {
+                width: 200px;
+            }
+
+            .certificate {
+                padding: 20px;
+            }
+
+            .name-field {
+                min-width: 150px;
+                margin: 10px 0;
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Registration Form -->
-        <div id="registration" class="section">
+        <!-- Header with Navigation -->
+        <div class="nav-header">
             <h1>🛡️ PIDPI Awareness Program</h1>
-            <p style="margin-bottom: 30px; color: #666;">Learn about Public Interest Disclosure and Protection of Informers - Your Rights as a Whistleblower in India</p>
+            <p>सतर्कता जागरूकता कार्यक्रम | Public Interest Disclosure and Protection of Informers</p>
             
-            <div class="form-group">
-                <label for="userName">Full Name *</label>
-                <input type="text" id="userName" required>
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
             
-            <div class="form-group">
-                <label for="userEmail">Email Address *</label>
-                <input type="email" id="userEmail" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="userDetails">Brief Introduction (Optional)</label>
-                <textarea id="userDetails" rows="3" placeholder="Tell us about yourself..."></textarea>
-            </div>
-            
-            <button class="btn" onclick="startLearning()">Start Learning Journey</button>
-        </div>
-        
-        <!-- Learning Slides -->
-        <div id="learning" class="section hidden">
-            <div class="slide-counter">
-                <span id="currentSlide">1</span> of 10
-            </div>
-            
-            <div class="progress-bar">
-                <div class="progress" id="progressBar"></div>
-            </div>
-            
-            <div class="slide" id="slideContent">
-                <!-- Slide content will be inserted here -->
-            </div>
-            
-            <div class="navigation">
-                <button class="btn" id="prevBtn" onclick="previousSlide()" style="display: none;">Previous</button>
-                <button class="btn" id="nextBtn" onclick="nextSlide()">Next</button>
+            <!-- Navigation Menu -->
+            <div class="nav-menu">
+                <button class="nav-btn active" onclick="showSection('introduction', 0)">Introduction</button>
+                <button class="nav-btn" onclick="showSection('overview', 1)" id="overviewBtn" disabled>Overview</button>
+                <button class="nav-btn" onclick="showSection('guidelines', 2)" id="guidelinesBtn" disabled>Guidelines</button>
+                <button class="nav-btn" onclick="showSection('quiz', 3)" id="quizBtn" disabled>Assessment</button>
+                <button class="nav-btn" onclick="showSection('certificate', 4)" id="certificateBtn" disabled>Certificate</button>
             </div>
         </div>
-        
+
+        <!-- Introduction Section -->
+        <div class="content-section active" id="introduction">
+            <h2>Welcome to PIDPI Awareness Program</h2>
+            <p><strong>सतर्कता जागरूकता कार्यक्रम में आपका स्वागत है</strong></p>
+            
+            <p>The Public Interest Disclosure and Protection of Informers (PIDPI) Act is designed to encourage and protect individuals who report corruption, misconduct, or violations in public organizations.</p>
+            
+            <p><strong>Program Objectives:</strong></p>
+            <p>• Understanding the importance of vigilance and transparency</p>
+            <p>• Learning about whistleblower protection mechanisms</p>
+            <p>• Developing awareness about reporting procedures</p>
+            <p>• Building a culture of integrity and accountability</p>
+            
+            <p><strong>Duration:</strong> Approximately 15-20 minutes</p>
+            <p><strong>Assessment:</strong> Multiple choice questions</p>
+            <p><strong>Certification:</strong> Certificate upon successful completion</p>
+            
+            <div class="nav-controls">
+                <button class="control-btn btn-secondary" disabled>Previous</button>
+                <button class="control-btn btn-primary" onclick="nextSection()">Begin Program</button>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="content-section" id="overview">
+            <h2>PIDPI Act Overview</h2>
+            <p><strong>जन हित प्रकटीकरण और सूचनाकर्ता संरक्षण अधिनियम की रूपरेखा</strong></p>
+            
+            <p>The PIDPI Act provides a legal framework for:</p>
+            
+            <p><strong>1. Protection of Whistleblowers:</strong><br>
+            Ensures that individuals who report wrongdoing are protected from retaliation, harassment, or victimization.</p>
+            
+            <p><strong>2. Reporting Mechanisms:</strong><br>
+            Establishes proper channels for reporting corruption, misconduct, or violation of law or rules.</p>
+            
+            <p><strong>3. Investigation Procedures:</strong><br>
+            Defines the process for investigating complaints and taking appropriate action.</p>
+            
+            <p><strong>4. Transparency and Accountability:</strong><br>
+            Promotes a culture of openness and accountability in public institutions.</p>
+            
+            <p><strong>Key Features:</strong></p>
+            <p>• Confidentiality of complainant's identity</p>
+            <p>• Time-bound investigation process</p>
+            <p>• Appeal mechanisms</p>
+            <p>• Penalty provisions for false complaints</p>
+            
+            <div class="nav-controls">
+                <button class="control-btn btn-secondary" onclick="previousSection()">Previous</button>
+                <button class="control-btn btn-primary" onclick="nextSection()">Continue</button>
+            </div>
+        </div>
+
+        <!-- Guidelines Section -->
+        <div class="content-section" id="guidelines">
+            <h2>Guidelines and Procedures</h2>
+            <p><strong>दिशा-निर्देश और प्रक्रियाएं</strong></p>
+            
+            <p><strong>Reporting Process:</strong></p>
+            
+            <p><strong>Step 1: Identification</strong><br>
+            Identify acts of corruption, misconduct, or violation that warrant reporting.</p>
+            
+            <p><strong>Step 2: Documentation</strong><br>
+            Gather relevant evidence and documentation to support your complaint.</p>
+            
+            <p><strong>Step 3: Filing Complaint</strong><br>
+            Submit complaint through designated channels with proper details.</p>
+            
+            <p><strong>Step 4: Investigation</strong><br>
+            Competent authority conducts investigation within specified timeframe.</p>
+            
+            <p><strong>Do's:</strong></p>
+            <p>• Report in good faith with genuine concerns</p>
+            <p>• Provide accurate and complete information</p>
+            <p>• Maintain confidentiality during investigation</p>
+            <p>• Cooperate with investigating authorities</p>
+            
+            <p><strong>Don'ts:</strong></p>
+            <p>• File frivolous or malicious complaints</p>
+            <p>• Discuss the matter publicly during investigation</p>
+            <p>• Attempt to influence the investigation process</p>
+            
+            <div class="nav-controls">
+                <button class="control-btn btn-secondary" onclick="previousSection()">Previous</button>
+                <button class="control-btn btn-primary" onclick="nextSection()">Take Assessment</button>
+            </div>
+        </div>
+
         <!-- Quiz Section -->
-        <div id="quiz" class="section hidden">
-            <h2>🧠 PIDPI Knowledge Assessment</h2>
-            <p style="margin-bottom: 30px; color: #666;">Test your understanding of PIDPI to complete your awareness certification.</p>
+        <div class="content-section" id="quiz">
+            <h2>Knowledge Assessment</h2>
+            <p><strong>ज्ञान मूल्यांकन</strong></p>
             
-            <div id="quizContent">
-                <!-- Quiz questions will be inserted here -->
+            <div class="quiz-question">
+                <p><strong>1. What is the primary purpose of the PIDPI Act?</strong></p>
+                <ul class="quiz-options">
+                    <li><input type="radio" name="q1" value="a"> To punish employees</li>
+                    <li><input type="radio" name="q1" value="b"> To protect whistleblowers and encourage reporting of misconduct</li>
+                    <li><input type="radio" name="q1" value="c"> To increase bureaucracy</li>
+                    <li><input type="radio" name="q1" value="d"> To reduce transparency</li>
+                </ul>
             </div>
             
-            <div class="navigation">
-                <button class="btn" onclick="submitQuiz()">Submit Quiz</button>
+            <div class="quiz-question">
+                <p><strong>2. Which of the following is protected under PIDPI?</strong></p>
+                <ul class="quiz-options">
+                    <li><input type="radio" name="q2" value="a"> Identity of the complainant</li>
+                    <li><input type="radio" name="q2" value="b"> Evidence provided</li>
+                    <li><input type="radio" name="q2" value="c"> Investigation process</li>
+                    <li><input type="radio" name="q2" value="d"> All of the above</li>
+                </ul>
+            </div>
+            
+            <div class="quiz-question">
+                <p><strong>3. What should you do before filing a PIDPI complaint?</strong></p>
+                <ul class="quiz-options">
+                    <li><input type="radio" name="q3" value="a"> Discuss with colleagues</li>
+                    <li><input type="radio" name="q3" value="b"> Gather relevant evidence and documentation</li>
+                    <li><input type="radio" name="q3" value="c"> Contact media</li>
+                    <li><input type="radio" name="q3" value="d"> Wait for someone else to report</li>
+                </ul>
+            </div>
+            
+            <div class="nav-controls">
+                <button class="control-btn btn-secondary" onclick="previousSection()">Previous</button>
+                <button class="control-btn btn-primary" onclick="submitQuiz()">Submit Assessment</button>
             </div>
         </div>
-        
-        <!-- Certificate -->
-        <div id="certificate" class="section hidden">
-            <div class="certificate">
-                <h2 style="color: #1976d2; margin-bottom: 10px;">सतर्कता जागरूकता प्रमाणपत्र</h2>
-                <h3 style="color: #1976d2; margin-bottom: 20px;">VIGILANCE AWARENESS CERTIFICATE</h3>
-                <p style="color: #666; font-size: 0.9em;">PIDPI - Public Interest Disclosure and Protection of Informers</p>
-                
-                <p style="margin: 20px 0; color: #333;">प्रमाणित किया जाता है कि / This is to certify that</p>
-                <div class="name" id="certName" style="background: #e8f5e8; padding: 15px; border: 2px solid #4caf50; margin: 20px 0; border-radius: 8px;"></div>
-                
-                <p style="margin: 15px 0; color: #333;">ने सतर्कता जागरूकता कार्यक्रम सफलतापूर्वक पूरा किया है</p>
-                <p style="margin: 15px 0; color: #333;">has successfully completed PIDPI Awareness Program</p>
-                
-                <div class="score" id="certScore" style="background: #fff3cd; padding: 10px; border-radius: 5px; border: 1px solid #ffc107; margin: 20px 0;"></div>
-                <p style="margin-top: 20px; color: #666;">
-                    <strong>दिनांक / Date:</strong> <span id="certDate"></span>
-                </p>
-                <p style="margin-top: 15px; color: #1976d2; font-weight: bold; font-style: italic;">
-                    सत्यमेव जयते - Truth Alone Triumphs
-                </p>
+
+        <!-- Certificate Section -->
+        <div class="content-section" id="certificate">
+            <div id="successMessage" class="success-message" style="display: none;">
+                <p>🎉 Congratulations! You have successfully completed the PIDPI Awareness Program.</p>
             </div>
             
-            <button class="btn" onclick="previewCertificate()">Preview Certificate</button>
-            <button class="btn" onclick="downloadCertificate()">Download Certificate</button>
-            <button class="btn" onclick="restartProgram()">Start Over</button>
+            <div class="certificate">
+                <h2>सतर्कता जागरूकता प्रमाणपत्र</h2>
+                <h2>VIGILANCE AWARENESS CERTIFICATE</h2>
+                <h3>PIDPI - Public Interest Disclosure and Protection of Informers</h3>
+                
+                <div class="certificate-content">
+                    <p><strong>प्रमाणित किया जाता है कि / This is to certify that</strong></p>
+                    
+                    <input type="text" class="name-field" placeholder="Enter your name" id="participantName">
+                    
+                    <p><strong>ने सतर्कता जागरूकता कार्यक्रम सफलतापूर्वक पूरा किया है</strong></p>
+                    <p><strong>has successfully completed PIDPI Awareness Program</strong></p>
+                    
+                    <p><strong>दिनांक / Date:</strong> <span id="completionDate"></span></p>
+                </div>
+                
+                <div class="certificate-footer">
+                    <p><strong>सत्यमेव जयते - Truth Alone Triumphs</strong></p>
+                </div>
+            </div>
+            
+            <div class="nav-controls">
+                <button class="control-btn btn-secondary" onclick="previousSection()">Previous</button>
+                <button class="control-btn btn-primary" onclick="downloadCertificate()">Download Certificate</button>
+            </div>
         </div>
     </div>
 
     <script>
-        let currentSlideIndex = 0;
-        let userAnswers = [];
-        let userName = '';
-        let userEmail = '';
-        let userDetails = '';
+        let currentSection = 0;
+        const sections = ['introduction', 'overview', 'guidelines', 'quiz', 'certificate'];
+        const correctAnswers = ['b', 'd', 'b']; // Correct answers for quiz
         
-        const slides = [
-            {
-                title: "Introduction to PIDPI",
-                content: "Public Interest Disclosure and Protection of Informers (PIDPI) is a vital mechanism established by the Government of India to encourage and protect whistleblowers. This resolution enables citizens to report corruption, misuse of office, and unethical practices without fear of victimization. The Central Vigilance Commission (CVC) acts as the designated agency to receive and process such complaints while ensuring complete anonymity and protection to informers."
-            },
-            {
-                title: "Legal Framework and Authority",
-                content: "PIDPI was established through a Government resolution in 2004, with the Central Vigilance Commission authorized as the 'Designated Agency' to handle whistleblower complaints. The framework is based on international best practices and provides legal protection to individuals who disclose information in public interest. This mechanism covers all Central Government organizations, public sector undertakings, and entities under the administrative control of the Central Government."
-            },
-            {
-                title: "What Can Be Reported Under PIDPI?",
-                content: "Under PIDPI, you can report various forms of corruption and misconduct including: financial irregularities, misuse of official position, nepotism and favoritism, violation of rules and regulations, waste of public resources, criminal misconduct by public servants, and any act that goes against public interest. The complaint should relate to employees of Central Government organizations, PSUs, or autonomous bodies under Central Government control."
-            },
-            {
-                title: "Protection Guaranteed to Informers",
-                content: "PIDPI ensures complete anonymity and protection to whistleblowers through several measures: identity of the complainant is kept strictly confidential, protection from victimization and harassment, no disclosure of informer's identity without explicit consent, legal safeguards against retaliation, and swift action against anyone attempting to victimize the complainant. The CVC takes serious view of any attempt to identify or harass whistleblowers."
-            },
-            {
-                title: "How to File a PIDPI Complaint",
-                content: "To file a PIDPI complaint: write the complaint in a closed/secured envelope, address it to 'Secretary, Central Vigilance Commission, New Delhi', clearly mark the envelope with 'Complaint under Public Interest Disclosure' or 'PIDPI', include your name and address (kept confidential), provide specific details with evidence if available, and send via registered post or deliver personally to CVC office. Anonymous complaints are generally not entertained unless they contain verifiable information."
-            },
-            {
-                title: "Essential Elements of a Valid Complaint",
-                content: "A valid PIDPI complaint must contain: specific allegations with clear details, names of persons involved, nature of corruption or misconduct, supporting documents or evidence (if available), complainant's identity for verification purposes, and factual information rather than vague allegations. The complaint should be written in Hindi, English, or any regional language. Frivolous, vexatious, or motivated complaints may attract legal action."
-            },
-            {
-                title: "Processing and Investigation",
-                content: "Once a PIDPI complaint is received, CVC follows a systematic process: preliminary scrutiny of the complaint, assessment of its validity and jurisdiction, forwarding to appropriate investigating agency if found genuine, monitoring the investigation process, and ensuring timely action on the findings. The entire process is conducted maintaining strict confidentiality of the complainant's identity throughout all stages of inquiry and investigation."
-            },
-            {
-                title: "Role of Central Vigilance Commission",
-                content: "CVC plays a crucial role in PIDPI implementation by: receiving and processing whistleblower complaints, ensuring protection of informers' identity, coordinating with investigating agencies, monitoring progress of investigations, recommending appropriate action on findings, and maintaining database of complaints and their status. CVC also issues guidelines and creates awareness about PIDPI among government organizations and the public."
-            },
-            {
-                title: "Limitations and Exclusions",
-                content: "PIDPI has certain limitations: it covers only Central Government organizations and PSUs, complaints against State Government employees require separate mechanisms, matters under investigation by courts or other agencies may not be entertained, service-related grievances of individual employees are excluded, and complaints should be made within reasonable time of the alleged incident. Personal disputes, policy matters, and administrative decisions are also generally excluded."
-            },
-            {
-                title: "Your Civic Duty and Impact",
-                content: "Reporting corruption through PIDPI is not just a right but a civic duty that helps: eliminate corruption from public life, ensure transparency in government functioning, protect public resources from misuse, promote ethical governance, strengthen democracy, and create a corruption-free society. Every citizen has the responsibility to speak up against wrongdoing. Your voice can make a significant difference in building a transparent and accountable government system."
-            }
-        ];
-        
-        const quizQuestions = [
-            {
-                question: "What does PIDPI stand for?",
-                options: [
-                    "Public Information Data Protection Initiative",
-                    "Public Interest Disclosure and Protection of Informers",
-                    "Private Investigation and Data Protection Institute",
-                    "Public Interest Development and Policy Implementation"
-                ],
-                correct: 1
-            },
-            {
-                question: "Which organization is the designated agency for PIDPI complaints?",
-                options: [
-                    "Supreme Court of India",
-                    "Central Bureau of Investigation (CBI)",
-                    "Central Vigilance Commission (CVC)",
-                    "Ministry of Home Affairs"
-                ],
-                correct: 2
-            },
-            {
-                question: "How should a PIDPI complaint envelope be marked?",
-                options: [
-                    "Confidential - CVC Only",
-                    "Urgent - Corruption Case",
-                    "Complaint under Public Interest Disclosure or PIDPI",
-                    "Anonymous Complaint - Handle Carefully"
-                ],
-                correct: 2
-            },
-            {
-                question: "What is the main protection offered under PIDPI?",
-                options: [
-                    "Financial compensation for informers",
-                    "Complete anonymity and protection from victimization",
-                    "Legal immunity from all charges",
-                    "Automatic promotion in government service"
-                ],
-                correct: 1
-            },
-            {
-                question: "Which type of complaints are NOT covered under PIDPI?",
-                options: [
-                    "Financial irregularities in Central PSUs",
-                    "Misuse of official position by Central Government officers",
-                    "Personal service grievances of individual employees",
-                    "Criminal misconduct by public servants"
-                ],
-                correct: 2
-            }
-        ];
-        
-        function startLearning() {
-            userName = document.getElementById('userName').value.trim();
-            userEmail = document.getElementById('userEmail').value.trim();
-            userDetails = document.getElementById('userDetails').value.trim();
-            
-            if (!userName || !userEmail) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-            
-            document.getElementById('registration').classList.add('hidden');
-            document.getElementById('learning').classList.remove('hidden');
-            loadSlide(0);
-        }
-        
-        function loadSlide(index) {
-            currentSlideIndex = index;
-            const slide = slides[index];
-            
-            document.getElementById('currentSlide').textContent = index + 1;
-            document.getElementById('slideContent').innerHTML = `
-                <h2>${slide.title}</h2>
-                <p style="font-size: 18px; line-height: 1.8; margin-top: 20px;">${slide.content}</p>
-            `;
-            
-            // Update progress bar
-            const progress = ((index + 1) / slides.length) * 100;
+        function updateProgress() {
+            const progress = ((currentSection + 1) / sections.length) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
-            
-            // Update navigation buttons
-            document.getElementById('prevBtn').style.display = index === 0 ? 'none' : 'inline-block';
-            document.getElementById('nextBtn').textContent = index === slides.length - 1 ? 'Take Quiz' : 'Next';
         }
         
-        function nextSlide() {
-            if (currentSlideIndex < slides.length - 1) {
-                loadSlide(currentSlideIndex + 1);
-            } else {
-                startQuiz();
-            }
-        }
-        
-        function previousSlide() {
-            if (currentSlideIndex > 0) {
-                loadSlide(currentSlideIndex - 1);
-            }
-        }
-        
-        function startQuiz() {
-            document.getElementById('learning').classList.add('hidden');
-            document.getElementById('quiz').classList.remove('hidden');
-            loadQuiz();
-        }
-        
-        function loadQuiz() {
-            let quizHTML = '';
-            
-            quizQuestions.forEach((q, index) => {
-                quizHTML += `
-                    <div class="quiz-question">
-                        <h3>Question ${index + 1}: ${q.question}</h3>
-                        <div class="quiz-options">
-                            ${q.options.map((option, optIndex) => `
-                                <div class="quiz-option" onclick="selectOption(${index}, ${optIndex})">
-                                    ${option}
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
+        function showSection(sectionId, index) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
             });
             
-            document.getElementById('quizContent').innerHTML = quizHTML;
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to current nav button
+            event.target.classList.add('active');
+            
+            currentSection = index;
+            updateProgress();
         }
         
-        function selectOption(questionIndex, optionIndex) {
-            // Remove previous selection
-            const questionDiv = document.getElementsByClassName('quiz-question')[questionIndex];
-            const options = questionDiv.getElementsByClassName('quiz-option');
-            
-            for (let option of options) {
-                option.classList.remove('selected');
+        function nextSection() {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                const nextSectionId = sections[currentSection];
+                
+                // Enable the next navigation button
+                const nextBtn = document.getElementById(nextSectionId + 'Btn');
+                if (nextBtn) {
+                    nextBtn.disabled = false;
+                }
+                
+                showSectionByIndex(currentSection);
             }
+        }
+        
+        function previousSection() {
+            if (currentSection > 0) {
+                currentSection--;
+                showSectionByIndex(currentSection);
+            }
+        }
+        
+        function showSectionByIndex(index) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
             
-            // Add selection to clicked option
-            options[optionIndex].classList.add('selected');
-            userAnswers[questionIndex] = optionIndex;
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            const sectionId = sections[index];
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to current nav button
+            document.querySelectorAll('.nav-btn')[index].classList.add('active');
+            
+            updateProgress();
         }
         
         function submitQuiz() {
-            if (userAnswers.length < quizQuestions.length) {
-                alert('Please answer all questions before submitting.');
+            const answers = [];
+            for (let i = 1; i <= 3; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) {
+                    answers.push(selected.value);
+                } else {
+                    alert('Please answer all questions before submitting.');
+                    return;
+                }
+            }
+            
+            // Check answers
+            let score = 0;
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i] === correctAnswers[i]) {
+                    score++;
+                }
+            }
+            
+            if (score >= 2) { // Pass with 2 or more correct answers
+                // Enable certificate section
+                document.getElementById('certificateBtn').disabled = false;
+                
+                // Show success message
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Set completion date
+                document.getElementById('completionDate').textContent = new Date().toLocaleDateString();
+                
+                nextSection();
+            } else {
+                alert('Please review the content and try again. You need at least 2 correct answers to pass.');
+            }
+        }
+        
+        function downloadCertificate() {
+            const name = document.getElementById('participantName').value.trim();
+            if (!name) {
+                alert('Please enter your name to download the certificate.');
                 return;
             }
             
-            let score = 0;
-            quizQuestions.forEach((q, index) => {
-                if (userAnswers[index] === q.correct) {
-                    score++;
-                }
-            });
-            
-            showCertificate(score);
+            // Simple download simulation
+            alert('Certificate download functionality would be implemented here. Your certificate for ' + name + ' is ready!');
         }
         
-        function showCertificate(score) {
-            const percentage = Math.round((score / quizQuestions.length) * 100);
-            
-            document.getElementById('quiz').classList.add('hidden');
-            document.getElementById('certificate').classList.remove('hidden');
-            
-            document.getElementById('certName').textContent = userName;
-            document.getElementById('certScore').textContent = `Score: ${score}/${quizQuestions.length} (${percentage}%)`;
-            document.getElementById('certDate').textContent = new Date().toLocaleDateString();
-        }
-        
-        function previewCertificate() {
-            // Create a canvas for preview
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Set canvas size
-            canvas.width = 600;
-            canvas.height = 425;
-            canvas.style.border = '2px solid #667eea';
-            canvas.style.borderRadius = '10px';
-            canvas.style.maxWidth = '100%';
-            canvas.style.height = 'auto';
-            
-            // Same certificate design but smaller
-            drawCertificate(ctx, canvas.width, canvas.height, true);
-            
-            // Show preview in modal-style
-            const existingPreview = document.getElementById('certificatePreview');
-            if (existingPreview) {
-                existingPreview.remove();
-            }
-            
-            const previewDiv = document.createElement('div');
-            previewDiv.id = 'certificatePreview';
-            previewDiv.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.8);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1000;
-                flex-direction: column;
-                gap: 20px;
-            `;
-            
-            const closeBtn = document.createElement('button');
-            closeBtn.textContent = '✕ Close Preview';
-            closeBtn.className = 'btn';
-            closeBtn.onclick = () => previewDiv.remove();
-            
-            previewDiv.appendChild(canvas);
-            previewDiv.appendChild(closeBtn);
-            document.body.appendChild(previewDiv);
-        }
-        
-        function drawCertificate(ctx, width, height, isPreview = false) {
-            // Scale factor for preview
-            const scale = isPreview ? 0.5 : 1;
-            
-            // Background - Light cream/white
-            ctx.fillStyle = '#fefefe';
-            ctx.fillRect(0, 0, width, height);
-            
-            // Main border - Red like CCL certificate
-            ctx.strokeStyle = '#d32f2f';
-            ctx.lineWidth = 12 * scale;
-            ctx.strokeRect(20 * scale, 20 * scale, width - 40 * scale, height - 40 * scale);
-            
-            // Inner decorative border
-            ctx.strokeStyle = '#8bc34a';
-            ctx.lineWidth = 4 * scale;
-            ctx.strokeRect(35 * scale, 35 * scale, width - 70 * scale, height - 70 * scale);
-            
-            // Header section with tricolor theme
-            const headerY = 80 * scale;
-            
-            // Saffron stripe
-            ctx.fillStyle = '#ff9933';
-            ctx.fillRect(50 * scale, headerY, width - 100 * scale, 8 * scale);
-            
-            // White stripe  
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(50 * scale, headerY + 8 * scale, width - 100 * scale, 8 * scale);
-            
-            // Green stripe
-            ctx.fillStyle = '#138808';
-            ctx.fillRect(50 * scale, headerY + 16 * scale, width - 100 * scale, 8 * scale);
-            
-            // Organization header
-            ctx.fillStyle = '#1976d2';
-            ctx.font = `bold ${32 * scale}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.fillText('CENTRAL VIGILANCE COMMISSION', width / 2, 140 * scale);
-            
-            // Hindi text
-            ctx.font = `${24 * scale}px Arial`;
-            ctx.fillStyle = '#333';
-            ctx.fillText('केन्द्रीय सतर्कता आयोग', width / 2, 170 * scale);
-            
-            // Main title - Bilingual
-            ctx.font = `bold ${36 * scale}px Arial`;
-            ctx.fillStyle = '#d32f2f';
-            ctx.fillText('सतर्कता जागरूकता प्रमाणपत्र', width / 2, 220 * scale);
-            
-            ctx.font = `bold ${32 * scale}px Arial`;
-            ctx.fillStyle = '#1976d2';
-            ctx.fillText('VIGILANCE AWARENESS CERTIFICATE', width / 2, 260 * scale);
-            
-            // Subtitle
-            ctx.font = `italic ${20 * scale}px Arial`;
-            ctx.fillStyle = '#666';
-            ctx.fillText('PIDPI - Public Interest Disclosure and Protection of Informers', width / 2, 290 * scale);
-            
-            // Certification text in Hindi and English
-            ctx.font = `${24 * scale}px Arial`;
-            ctx.fillStyle = '#333';
-            ctx.fillText('प्रमाणित किया जाता है कि श्री/श्रीमती', width / 2, 340 * scale);
-            ctx.fillText('This is to certify that', width / 2, 370 * scale);
-            
-            // Name with decorative box
-            ctx.fillStyle = '#e8f5e8';
-            ctx.fillRect(width/2 - 200 * scale, 385 * scale, 400 * scale, 50 * scale);
-            ctx.strokeStyle = '#4caf50';
-            ctx.lineWidth = 2 * scale;
-            ctx.strokeRect(width/2 - 200 * scale, 385 * scale, 400 * scale, 50 * scale);
-            
-            ctx.font = `bold ${32 * scale}px Arial`;
-            ctx.fillStyle = '#1976d2';
-            ctx.fillText(userName.toUpperCase(), width / 2, 415 * scale);
-            
-            // Achievement text
-            ctx.font = `${22 * scale}px Arial`;
-            ctx.fillStyle = '#333';
-            ctx.fillText('ने सतर्कता जागरूकता कार्यक्रम 2025 के दौरान', width / 2, 460 * scale);
-            ctx.fillText('has successfully completed PIDPI Awareness Program during', width / 2, 485 * scale);
-            ctx.fillText('चित्रकला प्रतियोगिता में भाग लिया तथा', width / 2, 510 * scale);
-            
-            // Position/Rank
-            const score = document.getElementById('certScore').textContent;
-            const percentage = score.match(/\((\d+)%\)/)[1];
-            let position = '';
-            let positionHindi = '';
-            
-            if (percentage >= 90) {
-                position = 'FIRST POSITION';
-                positionHindi = 'प्रथम स्थान';
-            } else if (percentage >= 80) {
-                position = 'SECOND POSITION'; 
-                positionHindi = 'द्वितीय स्थान';
-            } else if (percentage >= 70) {
-                position = 'THIRD POSITION';
-                positionHindi = 'तृतीय स्थान';
-            } else {
-                position = 'PARTICIPATION';
-                positionHindi = 'सहभागिता';
-            }
-            
-            ctx.font = `bold ${28 * scale}px Arial`;
-            ctx.fillStyle = '#d32f2f';
-            ctx.fillText(`${positionHindi} / ${position}`, width / 2, 545 * scale);
-            ctx.fillText('स्थान प्राप्त किया। / Position Achieved', width / 2, 575 * scale);
-            
-            // Score display
-            ctx.font = `bold ${24 * scale}px Arial`;
-            ctx.fillStyle = percentage >= 80 ? '#4caf50' : percentage >= 60 ? '#ff9800' : '#f44336';
-            ctx.fillText(`Assessment Score: ${score}`, width / 2, 615 * scale);
-            
-            // Date
-            const currentDate = new Date().toLocaleDateString('en-IN', {
-                day: 'numeric',
-                month: 'long', 
-                year: 'numeric'
-            });
-            ctx.font = `${20 * scale}px Arial`;
-            ctx.fillStyle = '#666';
-            ctx.fillText(`दिनांक / Date: ${currentDate}`, width / 2, 655 * scale);
-            
-            // Signature section with lines
-            const sigY = 720 * scale;
-            
-            // Left signature
-            ctx.strokeStyle = '#333';
-            ctx.lineWidth = 1 * scale;
-            ctx.beginPath();
-            ctx.moveTo(120 * scale, sigY);
-            ctx.lineTo(300 * scale, sigY);
-            ctx.stroke();
-            
-            ctx.font = `${16 * scale}px Arial`;
-            ctx.fillStyle = '#333';
-            ctx.textAlign = 'left';
-            ctx.fillText('विभागाध्यक्ष (का0 एवं प्रशा0)', 120 * scale, sigY + 25 * scale);
-            ctx.fillText('Department Head (Admin)', 120 * scale, sigY + 45 * scale);
-            
-            // Right signature  
-            ctx.beginPath();
-            ctx.moveTo(width - 300 * scale, sigY);
-            ctx.lineTo(width - 120 * scale, sigY);
-            ctx.stroke();
-            
-            ctx.textAlign = 'right';
-            ctx.fillText('महाप्रबंधक', width - 120 * scale, sigY + 25 * scale);
-            ctx.fillText('General Manager', width - 120 * scale, sigY + 45 * scale);
-            
-            // Reset text alignment
-            ctx.textAlign = 'center';
-            
-            // Footer with national motto
-            ctx.fillStyle = '#ff9933';
-            ctx.fillRect(60 * scale, 780 * scale, width - 120 * scale, 4 * scale);
-            ctx.fillStyle = '#138808';  
-            ctx.fillRect(60 * scale, 788 * scale, width - 120 * scale, 4 * scale);
-            
-            ctx.font = `italic bold ${18 * scale}px Arial`;
-            ctx.fillStyle = '#1976d2';
-            ctx.fillText('सत्यमेव जयते - Truth Alone Triumphs', width / 2, 815 * scale);
-            
-            // Certificate ID
-            const certId = 'PIDPI-' + Date.now().toString().slice(-8);
-            ctx.font = `${14 * scale}px Arial`;
-            ctx.fillStyle = '#888';
-            ctx.fillText(`Certificate ID: ${certId}`, width / 2, 835 * scale);
-        }
-            // Create a canvas for the certificate
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Set canvas size (A4 landscape proportions)
-            canvas.width = 1200;
-            canvas.height = 850;
-            
-            // Background gradient
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#f8f9ff');
-            gradient.addColorStop(1, '#e8f0ff');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Border decoration
-            ctx.strokeStyle = '#667eea';
-            ctx.lineWidth = 8;
-            ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
-            
-            // Inner border
-            ctx.strokeStyle = '#ddd';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
-            
-            // Header decoration
-            ctx.fillStyle = '#667eea';
-            ctx.fillRect(100, 80, canvas.width - 200, 4);
-            
-            // Title
-            ctx.fillStyle = '#333';
-            ctx.font = 'bold 48px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('CERTIFICATE OF COMPLETION', canvas.width / 2, 160);
-            
-            // Subtitle
-            ctx.font = 'italic 24px Arial';
-            ctx.fillStyle = '#666';
-            ctx.fillText('PIDPI Awareness Program', canvas.width / 2, 200);
-            ctx.fillText('Public Interest Disclosure and Protection of Informers', canvas.width / 2, 230);
-            
-            // "This is to certify that"
-            ctx.font = '28px Arial';
-            ctx.fillStyle = '#444';
-            ctx.fillText('This is to certify that', canvas.width / 2, 300);
-            
-            // Name (highlighted)
-            ctx.font = 'bold 40px Arial';
-            ctx.fillStyle = '#667eea';
-            ctx.fillText(userName.toUpperCase(), canvas.width / 2, 360);
-            
-            // Completion text
-            ctx.font = '28px Arial';
-            ctx.fillStyle = '#444';
-            ctx.fillText('has successfully completed the PIDPI Awareness Program', canvas.width / 2, 420);
-            ctx.fillText('and demonstrated understanding of whistleblower protection mechanisms', canvas.width / 2, 460);
-            
-            // Score
-            const score = document.getElementById('certScore').textContent;
-            const percentage = score.match(/\((\d+)%\)/)[1];
-            ctx.font = 'bold 32px Arial';
-            ctx.fillStyle = percentage >= 80 ? '#28a745' : percentage >= 60 ? '#ffc107' : '#dc3545';
-            ctx.fillText(`Assessment Score: ${score}`, canvas.width / 2, 520);
-            
-            // Performance level
-            let performance = '';
-            if (percentage >= 90) performance = 'EXCELLENT';
-            else if (percentage >= 80) performance = 'VERY GOOD';
-            else if (percentage >= 70) performance = 'GOOD';
-            else performance = 'SATISFACTORY';
-            
-            ctx.font = 'bold 24px Arial';
-            ctx.fillStyle = '#667eea';
-            ctx.fillText(`Performance: ${performance}`, canvas.width / 2, 560);
-            
-            // Date
-            const currentDate = new Date().toLocaleDateString('en-IN', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-            ctx.font = '24px Arial';
-            ctx.fillStyle = '#666';
-            ctx.fillText(`Date of Completion: ${currentDate}`, canvas.width / 2, 620);
-            
-            // Certificate ID (unique)
-            const certId = 'PIDPI-' + Date.now().toString().slice(-8);
-            ctx.fillText(`Certificate ID: ${certId}`, canvas.width / 2, 650);
-            
-            // Signature section
-            ctx.font = 'italic 20px Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText('Issued by:', 150, 720);
-            
-            ctx.font = 'bold 24px Arial';
-            ctx.fillStyle = '#333';
-            ctx.fillText('PIDPI Awareness Initiative', 150, 750);
-            
-            // Seal/Logo placeholder (you can replace with actual logo)
-            ctx.textAlign = 'right';
-            ctx.fillStyle = '#667eea';
-            ctx.font = 'bold 20px Arial';
-            ctx.fillText('🛡️ CERTIFIED', canvas.width - 150, 720);
-            ctx.font = '16px Arial';
-            ctx.fillText('Anti-Corruption Awareness', canvas.width - 150, 745);
-            
-            // Footer decoration
-            ctx.fillStyle = '#667eea';
-            ctx.fillRect(100, 780, canvas.width - 200, 4);
-            
-            // Convert to image and download
-            canvas.toBlob(function(blob) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${userName.replace(/\s+/g, '_')}_PIDPI_Certificate.png`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 'image/png', 1.0);
-        }
-        
-        function restartProgram() {
-            currentSlideIndex = 0;
-            userAnswers = [];
-            userName = '';
-            userEmail = '';
-            userDetails = '';
-            
-            document.getElementById('certificate').classList.add('hidden');
-            document.getElementById('registration').classList.remove('hidden');
-            
-            // Clear form
-            document.getElementById('userName').value = '';
-            document.getElementById('userEmail').value = '';
-            document.getElementById('userDetails').value = '';
-        }
+        // Initialize the page
+        updateProgress();
     </script>
 </body>
 </html>
