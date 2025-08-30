@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIDPI Awareness Program</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .slide {
+            text-align: left;
+            line-height: 1.6;
+        }
+        
+        .slide h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+        
+        .slide-counter {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .quiz-question {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .quiz-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            border-color: #667eea;
+        }
+        
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .certificate {
+            border: 10px solid #gold;
+            background: linear-gradient(45deg, #f9f9f9, #fff);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 3px solid #ddd;
+        }
+        
+        .certificate h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .certificate .name {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 30px 0;
+        }
+        
+        .certificate .score {
+            font-size: 1.3em;
+            margin: 20px 0;
+            color: #555;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Registration Form -->
+        <div id="registration" class="section">
+            <h1>🛡️ PIDPI Awareness Program</h1>
+            <p style="margin-bottom: 30px; color: #666;">Learn about Public Interest Disclosure and Protection of Informers - Your Rights as a Whistleblower in India</p>
+            
+            <div class="form-group">
+                <label for="userName">Full Name *</label>
+                <input type="text" id="userName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="userEmail">Email Address *</label>
+                <input type="email" id="userEmail" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="userDetails">Brief Introduction (Optional)</label>
+                <textarea id="userDetails" rows="3" placeholder="Tell us about yourself..."></textarea>
+            </div>
+            
+            <button class="btn" onclick="startLearning()">Start Learning Journey</button>
+        </div>
+        
+        <!-- Learning Slides -->
+        <div id="learning" class="section hidden">
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> of 10
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            
+            <div class="slide" id="slideContent">
+                <!-- Slide content will be inserted here -->
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" id="prevBtn" onclick="previousSlide()" style="display: none;">Previous</button>
+                <button class="btn" id="nextBtn" onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz" class="section hidden">
+            <h2>🧠 PIDPI Knowledge Assessment</h2>
+            <p style="margin-bottom: 30px; color: #666;">Test your understanding of PIDPI to complete your awareness certification.</p>
+            
+            <div id="quizContent">
+                <!-- Quiz questions will be inserted here -->
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" onclick="submitQuiz()">Submit Quiz</button>
+            </div>
+        </div>
+        
+        <!-- Certificate -->
+        <div id="certificate" class="section hidden">
+            <div class="certificate">
+                <h2>Certificate of Completion</h2>
+                <p>This is to certify that</p>
+                <div class="name" id="certName"></div>
+                <p>has successfully completed the</p>
+                <h3 style="color: #667eea; margin: 20px 0;">PIDPI Awareness Program</h3>
+                <p style="font-size: 0.9em; margin: 15px 0; color: #666;">
+                    Public Interest Disclosure and Protection of Informers
+                </p>
+                <div class="score" id="certScore"></div>
+                <p style="margin-top: 30px;">
+                    <strong>Date:</strong> <span id="certDate"></span>
+                </p>
+            </div>
+            
+            <button class="btn" onclick="downloadCertificate()">Download Certificate</button>
+            <button class="btn" onclick="restartProgram()">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        let userAnswers = [];
+        let userName = '';
+        let userEmail = '';
+        let userDetails = '';
+        
+        const slides = [
+            {
+                title: "Introduction to PIDPI",
+                content: "Public Interest Disclosure and Protection of Informers (PIDPI) is a vital mechanism established by the Government of India to encourage and protect whistleblowers. This resolution enables citizens to report corruption, misuse of office, and unethical practices without fear of victimization. The Central Vigilance Commission (CVC) acts as the designated agency to receive and process such complaints while ensuring complete anonymity and protection to informers."
+            },
+            {
+                title: "Legal Framework and Authority",
+                content: "PIDPI was established through a Government resolution in 2004, with the Central Vigilance Commission authorized as the 'Designated Agency' to handle whistleblower complaints. The framework is based on international best practices and provides legal protection to individuals who disclose information in public interest. This mechanism covers all Central Government organizations, public sector undertakings, and entities under the administrative control of the Central Government."
+            },
+            {
+                title: "What Can Be Reported Under PIDPI?",
+                content: "Under PIDPI, you can report various forms of corruption and misconduct including: financial irregularities, misuse of official position, nepotism and favoritism, violation of rules and regulations, waste of public resources, criminal misconduct by public servants, and any act that goes against public interest. The complaint should relate to employees of Central Government organizations, PSUs, or autonomous bodies under Central Government control."
+            },
+            {
+                title: "Protection Guaranteed to Informers",
+                content: "PIDPI ensures complete anonymity and protection to whistleblowers through several measures: identity of the complainant is kept strictly confidential, protection from victimization and harassment, no disclosure of informer's identity without explicit consent, legal safeguards against retaliation, and swift action against anyone attempting to victimize the complainant. The CVC takes serious view of any attempt to identify or harass whistleblowers."
+            },
+            {
+                title: "How to File a PIDPI Complaint",
+                content: "To file a PIDPI complaint: write the complaint in a closed/secured envelope, address it to 'Secretary, Central Vigilance Commission, New Delhi', clearly mark the envelope with 'Complaint under Public Interest Disclosure' or 'PIDPI', include your name and address (kept confidential), provide specific details with evidence if available, and send via registered post or deliver personally to CVC office. Anonymous complaints are generally not entertained unless they contain verifiable information."
+            },
+            {
+                title: "Essential Elements of a Valid Complaint",
+                content: "A valid PIDPI complaint must contain: specific allegations with clear details, names of persons involved, nature of corruption or misconduct, supporting documents or evidence (if available), complainant's identity for verification purposes, and factual information rather than vague allegations. The complaint should be written in Hindi, English, or any regional language. Frivolous, vexatious, or motivated complaints may attract legal action."
+            },
+            {
+                title: "Processing and Investigation",
+                content: "Once a PIDPI complaint is received, CVC follows a systematic process: preliminary scrutiny of the complaint, assessment of its validity and jurisdiction, forwarding to appropriate investigating agency if found genuine, monitoring the investigation process, and ensuring timely action on the findings. The entire process is conducted maintaining strict confidentiality of the complainant's identity throughout all stages of inquiry and investigation."
+            },
+            {
+                title: "Role of Central Vigilance Commission",
+                content: "CVC plays a crucial role in PIDPI implementation by: receiving and processing whistleblower complaints, ensuring protection of informers' identity, coordinating with investigating agencies, monitoring progress of investigations, recommending appropriate action on findings, and maintaining database of complaints and their status. CVC also issues guidelines and creates awareness about PIDPI among government organizations and the public."
+            },
+            {
+                title: "Limitations and Exclusions",
+                content: "PIDPI has certain limitations: it covers only Central Government organizations and PSUs, complaints against State Government employees require separate mechanisms, matters under investigation by courts or other agencies may not be entertained, service-related grievances of individual employees are excluded, and complaints should be made within reasonable time of the alleged incident. Personal disputes, policy matters, and administrative decisions are also generally excluded."
+            },
+            {
+                title: "Your Civic Duty and Impact",
+                content: "Reporting corruption through PIDPI is not just a right but a civic duty that helps: eliminate corruption from public life, ensure transparency in government functioning, protect public resources from misuse, promote ethical governance, strengthen democracy, and create a corruption-free society. Every citizen has the responsibility to speak up against wrongdoing. Your voice can make a significant difference in building a transparent and accountable government system."
+            }
+        ];
+        
+        const quizQuestions = [
+            {
+                question: "What does PIDPI stand for?",
+                options: [
+                    "Public Information Data Protection Initiative",
+                    "Public Interest Disclosure and Protection of Informers",
+                    "Private Investigation and Data Protection Institute",
+                    "Public Interest Development and Policy Implementation"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which organization is the designated agency for PIDPI complaints?",
+                options: [
+                    "Supreme Court of India",
+                    "Central Bureau of Investigation (CBI)",
+                    "Central Vigilance Commission (CVC)",
+                    "Ministry of Home Affairs"
+                ],
+                correct: 2
+            },
+            {
+                question: "How should a PIDPI complaint envelope be marked?",
+                options: [
+                    "Confidential - CVC Only",
+                    "Urgent - Corruption Case",
+                    "Complaint under Public Interest Disclosure or PIDPI",
+                    "Anonymous Complaint - Handle Carefully"
+                ],
+                correct: 2
+            },
+            {
+                question: "What is the main protection offered under PIDPI?",
+                options: [
+                    "Financial compensation for informers",
+                    "Complete anonymity and protection from victimization",
+                    "Legal immunity from all charges",
+                    "Automatic promotion in government service"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which type of complaints are NOT covered under PIDPI?",
+                options: [
+                    "Financial irregularities in Central PSUs",
+                    "Misuse of official position by Central Government officers",
+                    "Personal service grievances of individual employees",
+                    "Criminal misconduct by public servants"
+                ],
+                correct: 2
+            }
+        ];
+        
+        function startLearning() {
+            userName = document.getElementById('userName').value.trim();
+            userEmail = document.getElementById('userEmail').value.trim();
+            userDetails = document.getElementById('userDetails').value.trim();
+            
+            if (!userName || !userEmail) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            document.getElementById('registration').classList.add('hidden');
+            document.getElementById('learning').classList.remove('hidden');
+            loadSlide(0);
+        }
+        
+        function loadSlide(index) {
+            currentSlideIndex = index;
+            const slide = slides[index];
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('slideContent').innerHTML = `
+                <h2>${slide.title}</h2>
+                <p style="font-size: 18px; line-height: 1.8; margin-top: 20px;">${slide.content}</p>
+            `;
+            
+            // Update progress bar
+            const progress = ((index + 1) / slides.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').style.display = index === 0 ? 'none' : 'inline-block';
+            document.getElementById('nextBtn').textContent = index === slides.length - 1 ? 'Take Quiz' : 'Next';
+        }
+        
+        function nextSlide() {
+            if (currentSlideIndex < slides.length - 1) {
+                loadSlide(currentSlideIndex + 1);
+            } else {
+                startQuiz();
+            }
+        }
+        
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                loadSlide(currentSlideIndex - 1);
+            }
+        }
+        
+        function startQuiz() {
+            document.getElementById('learning').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            loadQuiz();
+        }
+        
+        function loadQuiz() {
+            let quizHTML = '';
+            
+            quizQuestions.forEach((q, index) => {
+                quizHTML += `
+                    <div class="quiz-question">
+                        <h3>Question ${index + 1}: ${q.question}</h3>
+                        <div class="quiz-options">
+                            ${q.options.map((option, optIndex) => `
+                                <div class="quiz-option" onclick="selectOption(${index}, ${optIndex})">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('quizContent').innerHTML = quizHTML;
+        }
+        
+        function selectOption(questionIndex, optionIndex) {
+            // Remove previous selection
+            const questionDiv = document.getElementsByClassName('quiz-question')[questionIndex];
+            const options = questionDiv.getElementsByClassName('quiz-option');
+            
+            for (let option of options) {
+                option.classList.remove('selected');
+            }
+            
+            // Add selection to clicked option
+            options[optionIndex].classList.add('selected');
+            userAnswers[questionIndex] = optionIndex;
+        }
+        
+        function submitQuiz() {
+            if (userAnswers.length < quizQuestions.length) {
+                alert('Please answer all questions before submitting.');
+                return;
+            }
+            
+            let score = 0;
+            quizQuestions.forEach((q, index) => {
+                if (userAnswers[index] === q.correct) {
+                    score++;
+                }
+            });
+            
+            showCertificate(score);
+        }
+        
+        function showCertificate(score) {
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('certificate').classList.remove('hidden');
+            
+            document.getElementById('certName').textContent = userName;
+            document.getElementById('certScore').textContent = `Score: ${score}/${quizQuestions.length} (${percentage}%)`;
+            document.getElementById('certDate').textContent = new Date().toLocaleDateString();
+        }
+        
+        function downloadCertificate() {
+            // Simple download functionality
+            const certificateContent = `
+PIDPI Awareness Program - Certificate of Completion
+
+This is to certify that ${userName} has successfully completed the PIDPI (Public Interest Disclosure and Protection of Informers) Awareness Program.
+
+Score: ${document.getElementById('certScore').textContent}
+Date: ${document.getElementById('certDate').textContent}
+Email: ${userEmail}
+
+This program covered:
+- Understanding of PIDPI framework and legal provisions
+- Knowledge of whistleblower protection mechanisms
+- Procedures for filing complaints under PIDPI
+- Role of Central Vigilance Commission
+- Civic responsibilities in fighting corruption
+
+Issued by: PIDPI Awareness Initiative
+            `.trim();
+            
+            const blob = new Blob([certificateContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${userName.replace(/\s+/g, '_')}_PIDPI_Certificate.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function restartProgram() {
+            currentSlideIndex = 0;
+            userAnswers = [];
+            userName = '';
+            userEmail = '';
+            userDetails = '';
+            
+            document.getElementById('certificate').classList.add('hidden');
+            document.getElementById('registration').classList.remove('hidden');
+            
+            // Clear form
+            document.getElementById('userName').value = '';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('userDetails').value = '';
+        }
+    </script>
+</body>
+</html>
