@@ -146,8 +146,8 @@
         }
         
         .certificate {
-            border: 10px solid #gold;
-            background: linear-gradient(45deg, #f9f9f9, #fff);
+            border: 12px solid #d32f2f;
+            background: linear-gradient(45deg, #fefefe, #f8f8f8);
             padding: 40px;
             text-align: center;
             position: relative;
@@ -157,11 +157,19 @@
         .certificate::before {
             content: '';
             position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 4px solid #8bc34a;
+        }
+        
+        .certificate::after {
+            content: '🇮🇳';
+            position: absolute;
             top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: 20px;
-            border: 3px solid #ddd;
+            right: 30px;
+            font-size: 30px;
         }
         
         .certificate h2 {
@@ -253,20 +261,26 @@
         <!-- Certificate -->
         <div id="certificate" class="section hidden">
             <div class="certificate">
-                <h2>Certificate of Completion</h2>
-                <p>This is to certify that</p>
-                <div class="name" id="certName"></div>
-                <p>has successfully completed the</p>
-                <h3 style="color: #667eea; margin: 20px 0;">PIDPI Awareness Program</h3>
-                <p style="font-size: 0.9em; margin: 15px 0; color: #666;">
-                    Public Interest Disclosure and Protection of Informers
+                <h2 style="color: #1976d2; margin-bottom: 10px;">सतर्कता जागरूकता प्रमाणपत्र</h2>
+                <h3 style="color: #1976d2; margin-bottom: 20px;">VIGILANCE AWARENESS CERTIFICATE</h3>
+                <p style="color: #666; font-size: 0.9em;">PIDPI - Public Interest Disclosure and Protection of Informers</p>
+                
+                <p style="margin: 20px 0; color: #333;">प्रमाणित किया जाता है कि / This is to certify that</p>
+                <div class="name" id="certName" style="background: #e8f5e8; padding: 15px; border: 2px solid #4caf50; margin: 20px 0; border-radius: 8px;"></div>
+                
+                <p style="margin: 15px 0; color: #333;">ने सतर्कता जागरूकता कार्यक्रम सफलतापूर्वक पूरा किया है</p>
+                <p style="margin: 15px 0; color: #333;">has successfully completed PIDPI Awareness Program</p>
+                
+                <div class="score" id="certScore" style="background: #fff3cd; padding: 10px; border-radius: 5px; border: 1px solid #ffc107; margin: 20px 0;"></div>
+                <p style="margin-top: 20px; color: #666;">
+                    <strong>दिनांक / Date:</strong> <span id="certDate"></span>
                 </p>
-                <div class="score" id="certScore"></div>
-                <p style="margin-top: 30px;">
-                    <strong>Date:</strong> <span id="certDate"></span>
+                <p style="margin-top: 15px; color: #1976d2; font-weight: bold; font-style: italic;">
+                    सत्यमेव जयते - Truth Alone Triumphs
                 </p>
             </div>
             
+            <button class="btn" onclick="previewCertificate()">Preview Certificate</button>
             <button class="btn" onclick="downloadCertificate()">Download Certificate</button>
             <button class="btn" onclick="restartProgram()">Start Over</button>
         </div>
@@ -491,36 +505,344 @@
             document.getElementById('certDate').textContent = new Date().toLocaleDateString();
         }
         
-        function downloadCertificate() {
-            // Simple download functionality
-            const certificateContent = `
-PIDPI Awareness Program - Certificate of Completion
-
-This is to certify that ${userName} has successfully completed the PIDPI (Public Interest Disclosure and Protection of Informers) Awareness Program.
-
-Score: ${document.getElementById('certScore').textContent}
-Date: ${document.getElementById('certDate').textContent}
-Email: ${userEmail}
-
-This program covered:
-- Understanding of PIDPI framework and legal provisions
-- Knowledge of whistleblower protection mechanisms
-- Procedures for filing complaints under PIDPI
-- Role of Central Vigilance Commission
-- Civic responsibilities in fighting corruption
-
-Issued by: PIDPI Awareness Initiative
-            `.trim();
+        function previewCertificate() {
+            // Create a canvas for preview
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
             
-            const blob = new Blob([certificateContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${userName.replace(/\s+/g, '_')}_PIDPI_Certificate.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            // Set canvas size
+            canvas.width = 600;
+            canvas.height = 425;
+            canvas.style.border = '2px solid #667eea';
+            canvas.style.borderRadius = '10px';
+            canvas.style.maxWidth = '100%';
+            canvas.style.height = 'auto';
+            
+            // Same certificate design but smaller
+            drawCertificate(ctx, canvas.width, canvas.height, true);
+            
+            // Show preview in modal-style
+            const existingPreview = document.getElementById('certificatePreview');
+            if (existingPreview) {
+                existingPreview.remove();
+            }
+            
+            const previewDiv = document.createElement('div');
+            previewDiv.id = 'certificatePreview';
+            previewDiv.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                flex-direction: column;
+                gap: 20px;
+            `;
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '✕ Close Preview';
+            closeBtn.className = 'btn';
+            closeBtn.onclick = () => previewDiv.remove();
+            
+            previewDiv.appendChild(canvas);
+            previewDiv.appendChild(closeBtn);
+            document.body.appendChild(previewDiv);
+        }
+        
+        function drawCertificate(ctx, width, height, isPreview = false) {
+            // Scale factor for preview
+            const scale = isPreview ? 0.5 : 1;
+            
+            // Background - Light cream/white
+            ctx.fillStyle = '#fefefe';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Main border - Red like CCL certificate
+            ctx.strokeStyle = '#d32f2f';
+            ctx.lineWidth = 12 * scale;
+            ctx.strokeRect(20 * scale, 20 * scale, width - 40 * scale, height - 40 * scale);
+            
+            // Inner decorative border
+            ctx.strokeStyle = '#8bc34a';
+            ctx.lineWidth = 4 * scale;
+            ctx.strokeRect(35 * scale, 35 * scale, width - 70 * scale, height - 70 * scale);
+            
+            // Header section with tricolor theme
+            const headerY = 80 * scale;
+            
+            // Saffron stripe
+            ctx.fillStyle = '#ff9933';
+            ctx.fillRect(50 * scale, headerY, width - 100 * scale, 8 * scale);
+            
+            // White stripe  
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(50 * scale, headerY + 8 * scale, width - 100 * scale, 8 * scale);
+            
+            // Green stripe
+            ctx.fillStyle = '#138808';
+            ctx.fillRect(50 * scale, headerY + 16 * scale, width - 100 * scale, 8 * scale);
+            
+            // Organization header
+            ctx.fillStyle = '#1976d2';
+            ctx.font = `bold ${32 * scale}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText('CENTRAL VIGILANCE COMMISSION', width / 2, 140 * scale);
+            
+            // Hindi text
+            ctx.font = `${24 * scale}px Arial`;
+            ctx.fillStyle = '#333';
+            ctx.fillText('केन्द्रीय सतर्कता आयोग', width / 2, 170 * scale);
+            
+            // Main title - Bilingual
+            ctx.font = `bold ${36 * scale}px Arial`;
+            ctx.fillStyle = '#d32f2f';
+            ctx.fillText('सतर्कता जागरूकता प्रमाणपत्र', width / 2, 220 * scale);
+            
+            ctx.font = `bold ${32 * scale}px Arial`;
+            ctx.fillStyle = '#1976d2';
+            ctx.fillText('VIGILANCE AWARENESS CERTIFICATE', width / 2, 260 * scale);
+            
+            // Subtitle
+            ctx.font = `italic ${20 * scale}px Arial`;
+            ctx.fillStyle = '#666';
+            ctx.fillText('PIDPI - Public Interest Disclosure and Protection of Informers', width / 2, 290 * scale);
+            
+            // Certification text in Hindi and English
+            ctx.font = `${24 * scale}px Arial`;
+            ctx.fillStyle = '#333';
+            ctx.fillText('प्रमाणित किया जाता है कि श्री/श्रीमती', width / 2, 340 * scale);
+            ctx.fillText('This is to certify that', width / 2, 370 * scale);
+            
+            // Name with decorative box
+            ctx.fillStyle = '#e8f5e8';
+            ctx.fillRect(width/2 - 200 * scale, 385 * scale, 400 * scale, 50 * scale);
+            ctx.strokeStyle = '#4caf50';
+            ctx.lineWidth = 2 * scale;
+            ctx.strokeRect(width/2 - 200 * scale, 385 * scale, 400 * scale, 50 * scale);
+            
+            ctx.font = `bold ${32 * scale}px Arial`;
+            ctx.fillStyle = '#1976d2';
+            ctx.fillText(userName.toUpperCase(), width / 2, 415 * scale);
+            
+            // Achievement text
+            ctx.font = `${22 * scale}px Arial`;
+            ctx.fillStyle = '#333';
+            ctx.fillText('ने सतर्कता जागरूकता कार्यक्रम 2025 के दौरान', width / 2, 460 * scale);
+            ctx.fillText('has successfully completed PIDPI Awareness Program during', width / 2, 485 * scale);
+            ctx.fillText('चित्रकला प्रतियोगिता में भाग लिया तथा', width / 2, 510 * scale);
+            
+            // Position/Rank
+            const score = document.getElementById('certScore').textContent;
+            const percentage = score.match(/\((\d+)%\)/)[1];
+            let position = '';
+            let positionHindi = '';
+            
+            if (percentage >= 90) {
+                position = 'FIRST POSITION';
+                positionHindi = 'प्रथम स्थान';
+            } else if (percentage >= 80) {
+                position = 'SECOND POSITION'; 
+                positionHindi = 'द्वितीय स्थान';
+            } else if (percentage >= 70) {
+                position = 'THIRD POSITION';
+                positionHindi = 'तृतीय स्थान';
+            } else {
+                position = 'PARTICIPATION';
+                positionHindi = 'सहभागिता';
+            }
+            
+            ctx.font = `bold ${28 * scale}px Arial`;
+            ctx.fillStyle = '#d32f2f';
+            ctx.fillText(`${positionHindi} / ${position}`, width / 2, 545 * scale);
+            ctx.fillText('स्थान प्राप्त किया। / Position Achieved', width / 2, 575 * scale);
+            
+            // Score display
+            ctx.font = `bold ${24 * scale}px Arial`;
+            ctx.fillStyle = percentage >= 80 ? '#4caf50' : percentage >= 60 ? '#ff9800' : '#f44336';
+            ctx.fillText(`Assessment Score: ${score}`, width / 2, 615 * scale);
+            
+            // Date
+            const currentDate = new Date().toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'long', 
+                year: 'numeric'
+            });
+            ctx.font = `${20 * scale}px Arial`;
+            ctx.fillStyle = '#666';
+            ctx.fillText(`दिनांक / Date: ${currentDate}`, width / 2, 655 * scale);
+            
+            // Signature section with lines
+            const sigY = 720 * scale;
+            
+            // Left signature
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1 * scale;
+            ctx.beginPath();
+            ctx.moveTo(120 * scale, sigY);
+            ctx.lineTo(300 * scale, sigY);
+            ctx.stroke();
+            
+            ctx.font = `${16 * scale}px Arial`;
+            ctx.fillStyle = '#333';
+            ctx.textAlign = 'left';
+            ctx.fillText('विभागाध्यक्ष (का0 एवं प्रशा0)', 120 * scale, sigY + 25 * scale);
+            ctx.fillText('Department Head (Admin)', 120 * scale, sigY + 45 * scale);
+            
+            // Right signature  
+            ctx.beginPath();
+            ctx.moveTo(width - 300 * scale, sigY);
+            ctx.lineTo(width - 120 * scale, sigY);
+            ctx.stroke();
+            
+            ctx.textAlign = 'right';
+            ctx.fillText('महाप्रबंधक', width - 120 * scale, sigY + 25 * scale);
+            ctx.fillText('General Manager', width - 120 * scale, sigY + 45 * scale);
+            
+            // Reset text alignment
+            ctx.textAlign = 'center';
+            
+            // Footer with national motto
+            ctx.fillStyle = '#ff9933';
+            ctx.fillRect(60 * scale, 780 * scale, width - 120 * scale, 4 * scale);
+            ctx.fillStyle = '#138808';  
+            ctx.fillRect(60 * scale, 788 * scale, width - 120 * scale, 4 * scale);
+            
+            ctx.font = `italic bold ${18 * scale}px Arial`;
+            ctx.fillStyle = '#1976d2';
+            ctx.fillText('सत्यमेव जयते - Truth Alone Triumphs', width / 2, 815 * scale);
+            
+            // Certificate ID
+            const certId = 'PIDPI-' + Date.now().toString().slice(-8);
+            ctx.font = `${14 * scale}px Arial`;
+            ctx.fillStyle = '#888';
+            ctx.fillText(`Certificate ID: ${certId}`, width / 2, 835 * scale);
+        }
+            // Create a canvas for the certificate
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size (A4 landscape proportions)
+            canvas.width = 1200;
+            canvas.height = 850;
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#f8f9ff');
+            gradient.addColorStop(1, '#e8f0ff');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Border decoration
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+            
+            // Inner border
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
+            
+            // Header decoration
+            ctx.fillStyle = '#667eea';
+            ctx.fillRect(100, 80, canvas.width - 200, 4);
+            
+            // Title
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('CERTIFICATE OF COMPLETION', canvas.width / 2, 160);
+            
+            // Subtitle
+            ctx.font = 'italic 24px Arial';
+            ctx.fillStyle = '#666';
+            ctx.fillText('PIDPI Awareness Program', canvas.width / 2, 200);
+            ctx.fillText('Public Interest Disclosure and Protection of Informers', canvas.width / 2, 230);
+            
+            // "This is to certify that"
+            ctx.font = '28px Arial';
+            ctx.fillStyle = '#444';
+            ctx.fillText('This is to certify that', canvas.width / 2, 300);
+            
+            // Name (highlighted)
+            ctx.font = 'bold 40px Arial';
+            ctx.fillStyle = '#667eea';
+            ctx.fillText(userName.toUpperCase(), canvas.width / 2, 360);
+            
+            // Completion text
+            ctx.font = '28px Arial';
+            ctx.fillStyle = '#444';
+            ctx.fillText('has successfully completed the PIDPI Awareness Program', canvas.width / 2, 420);
+            ctx.fillText('and demonstrated understanding of whistleblower protection mechanisms', canvas.width / 2, 460);
+            
+            // Score
+            const score = document.getElementById('certScore').textContent;
+            const percentage = score.match(/\((\d+)%\)/)[1];
+            ctx.font = 'bold 32px Arial';
+            ctx.fillStyle = percentage >= 80 ? '#28a745' : percentage >= 60 ? '#ffc107' : '#dc3545';
+            ctx.fillText(`Assessment Score: ${score}`, canvas.width / 2, 520);
+            
+            // Performance level
+            let performance = '';
+            if (percentage >= 90) performance = 'EXCELLENT';
+            else if (percentage >= 80) performance = 'VERY GOOD';
+            else if (percentage >= 70) performance = 'GOOD';
+            else performance = 'SATISFACTORY';
+            
+            ctx.font = 'bold 24px Arial';
+            ctx.fillStyle = '#667eea';
+            ctx.fillText(`Performance: ${performance}`, canvas.width / 2, 560);
+            
+            // Date
+            const currentDate = new Date().toLocaleDateString('en-IN', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            ctx.font = '24px Arial';
+            ctx.fillStyle = '#666';
+            ctx.fillText(`Date of Completion: ${currentDate}`, canvas.width / 2, 620);
+            
+            // Certificate ID (unique)
+            const certId = 'PIDPI-' + Date.now().toString().slice(-8);
+            ctx.fillText(`Certificate ID: ${certId}`, canvas.width / 2, 650);
+            
+            // Signature section
+            ctx.font = 'italic 20px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('Issued by:', 150, 720);
+            
+            ctx.font = 'bold 24px Arial';
+            ctx.fillStyle = '#333';
+            ctx.fillText('PIDPI Awareness Initiative', 150, 750);
+            
+            // Seal/Logo placeholder (you can replace with actual logo)
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#667eea';
+            ctx.font = 'bold 20px Arial';
+            ctx.fillText('🛡️ CERTIFIED', canvas.width - 150, 720);
+            ctx.font = '16px Arial';
+            ctx.fillText('Anti-Corruption Awareness', canvas.width - 150, 745);
+            
+            // Footer decoration
+            ctx.fillStyle = '#667eea';
+            ctx.fillRect(100, 780, canvas.width - 200, 4);
+            
+            // Convert to image and download
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${userName.replace(/\s+/g, '_')}_PIDPI_Certificate.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 'image/png', 1.0);
         }
         
         function restartProgram() {
