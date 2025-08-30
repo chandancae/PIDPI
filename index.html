@@ -330,9 +330,47 @@
             <p><strong>Assessment:</strong> Multiple choice questions</p>
             <p><strong>Certification:</strong> Certificate upon successful completion</p>
             
+            <!-- Participant Registration Form -->
+            <div class="participant-form" style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin: 25px 0; border: 2px solid #3498db;">
+                <h3 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">📝 Participant Registration</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Full Name *</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" 
+                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;" required>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Employee ID</label>
+                        <input type="text" id="employeeId" placeholder="Enter your employee ID" 
+                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Department/Organization *</label>
+                        <input type="text" id="department" placeholder="Enter your department/organization" 
+                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;" required>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Designation</label>
+                        <input type="text" id="designation" placeholder="Enter your designation" 
+                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email address" 
+                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #555;">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Enter your phone number" 
+                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                    </div>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #666; text-align: center;">* Required fields</p>
+            </div>
+            
             <div class="nav-controls">
                 <button class="control-btn btn-secondary" disabled>Previous</button>
-                <button class="control-btn btn-primary" onclick="nextSection()">Begin Program</button>
+                <button class="control-btn btn-primary" onclick="validateAndProceed()">Begin Program</button>
             </div>
         </div>
 
@@ -458,30 +496,81 @@
                 <div class="certificate-content">
                     <p><strong>प्रमाणित किया जाता है कि / This is to certify that</strong></p>
                     
-                    <input type="text" class="name-field" placeholder="Enter your name" id="participantName">
+                    <div style="margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px dashed #3498db;">
+                        <p style="margin: 5px 0;"><strong>Name / नाम:</strong> <span id="certName" style="color: #2c3e50; font-size: 1.2rem;"></span></p>
+                        <p style="margin: 5px 0;"><strong>Employee ID / कर्मचारी आईडी:</strong> <span id="certEmpId" style="color: #2c3e50;"></span></p>
+                        <p style="margin: 5px 0;"><strong>Department / विभाग:</strong> <span id="certDept" style="color: #2c3e50;"></span></p>
+                        <p style="margin: 5px 0;"><strong>Designation / पदनाम:</strong> <span id="certDesig" style="color: #2c3e50;"></span></p>
+                    </div>
                     
                     <p><strong>ने सतर्कता जागरूकता कार्यक्रम सफलतापूर्वक पूरा किया है</strong></p>
                     <p><strong>has successfully completed PIDPI Awareness Program</strong></p>
                     
-                    <p><strong>दिनांक / Date:</strong> <span id="completionDate"></span></p>
+                    <p><strong>Program Duration / कार्यक्रम अवधि:</strong> 15-20 minutes</p>
+                    <p><strong>Assessment Score / मूल्यांकन स्कोर:</strong> <span id="certScore"></span>/3</p>
+                    <p><strong>Completion Date / पूर्णता तिथि:</strong> <span id="completionDate"></span></p>
+                    <p><strong>Certificate ID / प्रमाणपत्र आईडी:</strong> <span id="certificateId"></span></p>
                 </div>
                 
                 <div class="certificate-footer">
                     <p><strong>सत्यमेव जयते - Truth Alone Triumphs</strong></p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">This certificate is digitally generated and verified</p>
                 </div>
             </div>
             
             <div class="nav-controls">
                 <button class="control-btn btn-secondary" onclick="previousSection()">Previous</button>
-                <button class="control-btn btn-primary" onclick="downloadCertificate()">Download Certificate</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="control-btn btn-primary" onclick="downloadCertificatePDF()">📄 Download PDF Certificate</button>
+                    <button class="control-btn" style="background: #27ae60;" onclick="saveParticipantData()">💾 Save Record</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
         let currentSection = 0;
         const sections = ['introduction', 'overview', 'guidelines', 'quiz', 'certificate'];
         const correctAnswers = ['b', 'd', 'b']; // Correct answers for quiz
+        let participantData = {}; // Store participant information
+        
+        // Validate participant information and proceed
+        function validateAndProceed() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const department = document.getElementById('department').value.trim();
+            
+            if (!fullName || !department) {
+                alert('Please fill in all required fields (Full Name and Department/Organization).');
+                return;
+            }
+            
+            // Store participant data
+            participantData = {
+                fullName: fullName,
+                employeeId: document.getElementById('employeeId').value.trim() || 'N/A',
+                department: department,
+                designation: document.getElementById('designation').value.trim() || 'N/A',
+                email: document.getElementById('email').value.trim() || 'N/A',
+                phone: document.getElementById('phone').value.trim() || 'N/A',
+                startTime: new Date().toISOString(),
+                certificateId: generateCertificateId()
+            };
+            
+            nextSection();
+        }
+        
+        // Generate unique certificate ID
+        function generateCertificateId() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return `PIDPI-${year}${month}${day}-${random}`;
+        }
         
         function updateProgress() {
             const progress = ((currentSection + 1) / sections.length) * 100;
@@ -573,14 +662,19 @@
             }
             
             if (score >= 2) { // Pass with 2 or more correct answers
+                // Store completion data
+                participantData.completionTime = new Date().toISOString();
+                participantData.score = score;
+                participantData.passed = true;
+                
                 // Enable certificate section
                 document.getElementById('certificateBtn').disabled = false;
                 
                 // Show success message
                 document.getElementById('successMessage').style.display = 'block';
                 
-                // Set completion date
-                document.getElementById('completionDate').textContent = new Date().toLocaleDateString();
+                // Populate certificate data
+                populateCertificateData();
                 
                 nextSection();
             } else {
@@ -588,15 +682,138 @@
             }
         }
         
-        function downloadCertificate() {
-            const name = document.getElementById('participantName').value.trim();
-            if (!name) {
-                alert('Please enter your name to download the certificate.');
+        
+        // Populate certificate with participant data
+        function populateCertificateData() {
+            document.getElementById('certName').textContent = participantData.fullName;
+            document.getElementById('certEmpId').textContent = participantData.employeeId;
+            document.getElementById('certDept').textContent = participantData.department;
+            document.getElementById('certDesig').textContent = participantData.designation;
+            document.getElementById('certScore').textContent = participantData.score;
+            document.getElementById('completionDate').textContent = new Date(participantData.completionTime).toLocaleDateString('en-GB');
+            document.getElementById('certificateId').textContent = participantData.certificateId;
+        }
+        
+        // Download certificate as PDF
+        function downloadCertificatePDF() {
+            if (!participantData.passed) {
+                alert('Please complete the assessment successfully first.');
                 return;
             }
             
-            // Simple download simulation
-            alert('Certificate download functionality would be implemented here. Your certificate for ' + name + ' is ready!');
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape', 'mm', 'a4');
+            
+            // Set background color
+            doc.setFillColor(255, 255, 255);
+            doc.rect(0, 0, 297, 210, 'F');
+            
+            // Add border
+            doc.setDrawColor(52, 152, 219);
+            doc.setLineWidth(3);
+            doc.rect(10, 10, 277, 190);
+            
+            // Add inner border
+            doc.setDrawColor(52, 152, 219);
+            doc.setLineWidth(1);
+            doc.rect(15, 15, 267, 180);
+            
+            // Title in Hindi
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(20);
+            doc.setTextColor(44, 62, 80);
+            doc.text('सतर्कता जागरूकता प्रमाणपत्र', 148.5, 35, { align: 'center' });
+            
+            // Title in English
+            doc.setFontSize(18);
+            doc.text('VIGILANCE AWARENESS CERTIFICATE', 148.5, 45, { align: 'center' });
+            
+            // Subtitle
+            doc.setFontSize(14);
+            doc.setTextColor(52, 152, 219);
+            doc.text('PIDPI - Public Interest Disclosure and Protection of Informers', 148.5, 55, { align: 'center' });
+            
+            // Certificate content
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(12);
+            doc.setTextColor(44, 62, 80);
+            doc.text('प्रमाणित किया जाता है कि / This is to certify that', 148.5, 70, { align: 'center' });
+            
+            // Participant details box
+            doc.setDrawColor(52, 152, 219);
+            doc.setFillColor(240, 248, 255);
+            doc.roundedRect(40, 80, 217, 45, 5, 5, 'FD');
+            
+            // Participant details
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.text(`Name / नाम: ${participantData.fullName}`, 45, 90);
+            doc.text(`Employee ID / कर्मचारी आईडी: ${participantData.employeeId}`, 45, 100);
+            doc.text(`Department / विभाग: ${participantData.department}`, 45, 110);
+            doc.text(`Designation / पदनाम: ${participantData.designation}`, 45, 120);
+            
+            // Completion text
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+            doc.text('ने सतर्कता जागरूकता कार्यक्रम सफलतापूर्वक पूरा किया है', 148.5, 140, { align: 'center' });
+            doc.text('has successfully completed PIDPI Awareness Program', 148.5, 150, { align: 'center' });
+            
+            // Additional details
+            doc.setFontSize(10);
+            doc.text(`Program Duration: 15-20 minutes`, 45, 165);
+            doc.text(`Assessment Score: ${participantData.score}/3`, 200, 165);
+            doc.text(`Completion Date: ${new Date(participantData.completionTime).toLocaleDateString('en-GB')}`, 45, 175);
+            doc.text(`Certificate ID: ${participantData.certificateId}`, 200, 175);
+            
+            // Footer
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(12);
+            doc.setTextColor(231, 76, 60);
+            doc.text('सत्यमेव जयते - Truth Alone Triumphs', 148.5, 190, { align: 'center' });
+            
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(8);
+            doc.setTextColor(127, 140, 141);
+            doc.text('This certificate is digitally generated and verified', 148.5, 195, { align: 'center' });
+            
+            // Save the PDF
+            const fileName = `PIDPI_Certificate_${participantData.fullName.replace(/\s+/g, '_')}_${participantData.certificateId}.pdf`;
+            doc.save(fileName);
+        }
+        
+        // Save participant data (for record keeping)
+        function saveParticipantData() {
+            if (!participantData.passed) {
+                alert('Please complete the assessment successfully first.');
+                return;
+            }
+            
+            // Create a data object for saving/logging
+            const recordData = {
+                ...participantData,
+                completionDate: new Date(participantData.completionTime).toLocaleDateString('en-GB'),
+                completionTime: new Date(participantData.completionTime).toLocaleTimeString('en-GB')
+            };
+            
+            // Convert to JSON and create downloadable file
+            const dataStr = JSON.stringify(recordData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `PIDPI_Record_${participantData.fullName.replace(/\s+/g, '_')}_${participantData.certificateId}.json`;
+            link.click();
+            
+            alert('Participant record saved successfully!');
+            
+            // Here you could also send data to a server
+            console.log('Participant Data:', recordData);
+        }
+        
+        // Legacy function - kept for compatibility
+        function downloadCertificate() {
+            downloadCertificatePDF();
         }
         
         // Initialize the page
